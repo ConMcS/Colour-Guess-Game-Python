@@ -57,7 +57,7 @@ def rgb_to_hex(colour):
         
 def add_leaderboard(score, player, leaderboard_file):
     with open(leaderboard_file, 'a') as file:
-        file.write(f'{score} ({player})\n')
+        file.write(str(score) + " (" + str(player) + ")\n")
 
 def show_leaderboard(scores, leaderboard_file):
     place = 0
@@ -170,7 +170,10 @@ def update_leaderboard_and_highscores(tot_score, username, leaderboard_file, ses
     return session_best_score
 
 def prompt_view_leaderboard(leaderboard_file):
-    show_leaderboard_prompt = input("Do you want to see the all-time leaderboard (y/n): ").lower()[0]
+    try:
+        show_leaderboard_prompt = input("Do you want to see the all-time leaderboard (y/n): ").lower()[0]
+    except IndexError:
+        show_leaderboard_prompt = "n"
     if show_leaderboard_prompt == "y":
         while True:
             try:
@@ -186,7 +189,10 @@ def prompt_view_leaderboard(leaderboard_file):
 
 def view_average_score(username, leaderboard_file):
     if username != "NUL":
-        show_average = input("Do you want to see the average score for this user (y/n): ").lower()
+        try:
+            show_average = input("Do you want to see the average score for this user (y/n): ").lower()
+        except:
+            show_average = "n"
         if show_average == 'y':
             avg_score = float(calculate_average_score(username, leaderboard_file))
             print(f"The average score for {username} is: {str(round(avg_score, 3))}%")
@@ -199,7 +205,10 @@ def round_break():
 
 def ask_to_go_to_menu():
     while True:
-        go_to_menu = input("Do you want to go back to the menu (y/n): ").lower()[0]
+        try:
+            go_to_menu = input("Do you want to go back to the menu (y/n): ").lower()[0]
+        except IndexError:
+            go_to_menu = "n"
         if go_to_menu == "y":
             return True
         elif go_to_menu == "n":
